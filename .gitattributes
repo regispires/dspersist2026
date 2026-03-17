@@ -1,0 +1,5 @@
+# Padrão: normaliza tudo para LF no repositório
+* text=auto eol=lf
+
+# Notebooks Jupyter explicitamente
+*.ipynb text eol=lf
