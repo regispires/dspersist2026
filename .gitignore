@@ -213,4 +213,5 @@ data/
 *.zip
 
 .vscode
+.claude
 

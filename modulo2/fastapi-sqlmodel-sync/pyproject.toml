@@ -1,0 +1,12 @@
+[project]
+name = "fastapi02"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "alembic>=1.18.4",
+    "fastapi-pagination>=0.15.12",
+    "fastapi[standard]>=0.136.1",
+    "sqlmodel>=0.0.38",
+]
