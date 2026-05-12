@@ -1,0 +1,13 @@
+[project]
+name = "fastapi-sqlmodel-async"
+version = "0.1.0"
+description = "FastAPI SQLModel Async"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "aiosqlite>=0.22.1",
+    "alembic>=1.18.4",
+    "fastapi-pagination>=0.15.12",
+    "fastapi[standard]>=0.136.1",
+    "sqlmodel>=0.0.38",
+]
