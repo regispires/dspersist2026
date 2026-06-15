@@ -88,6 +88,22 @@ async def get_user_avatar(user_id: PydanticObjectId) -> StreamingResponse:
     return StreamingResponse(iter([data]), media_type=content_type)
 
 
+@router.delete("/{user_id}/avatar", response_model=User)
+async def delete_user_avatar(user_id: PydanticObjectId) -> User:
+    user = await User.get(user_id)
+    if not user or not user.avatar:
+        raise HTTPException(status_code=404, detail="Avatar not found")
+
+    try:
+        await storage.delete_avatar(user.avatar.object_key)
+    except Exception as exc:
+        raise HTTPException(status_code=502, detail="Storage error") from exc
+
+    user.avatar = None
+    await user.save()
+    return user
+
+
 @router.put("/{user_id}", response_model=User)
 async def update_user(user_id: PydanticObjectId, user_data: dict) -> User:
     user = await User.get(user_id)

@@ -52,3 +52,23 @@ async def test_download_avatar_missing(client):
     user_id = await _create_user(client)
     resp = await client.get(f"/users/{user_id}/avatar")
     assert resp.status_code == 404
+
+
+async def test_delete_avatar(client):
+    user_id = await _create_user(client)
+    files = {"file": ("pic.png", b"\x89PNG\r\n\x1a\n", "image/png")}
+    await client.post(f"/users/{user_id}/avatar", files=files)
+
+    resp = await client.delete(f"/users/{user_id}/avatar")
+    assert resp.status_code == 200
+    assert resp.json()["avatar"] is None
+
+    # subsequent download is now 404
+    resp = await client.get(f"/users/{user_id}/avatar")
+    assert resp.status_code == 404
+
+
+async def test_delete_avatar_missing(client):
+    user_id = await _create_user(client)
+    resp = await client.delete(f"/users/{user_id}/avatar")
+    assert resp.status_code == 404
