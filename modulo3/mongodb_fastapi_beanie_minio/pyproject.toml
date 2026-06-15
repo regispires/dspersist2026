@@ -9,6 +9,7 @@ dependencies = [
     "fastapi-pagination>=0.15.5",
     "fastapi[standard]>=0.128.0",
     "aioboto3>=13.0.0",
+    "python-dotenv>=1.0.0",
 ]
 
 [dependency-groups]

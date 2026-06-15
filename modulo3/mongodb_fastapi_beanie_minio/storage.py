@@ -33,7 +33,13 @@ async def ensure_bucket() -> None:
         try:
             await s3.head_bucket(Bucket=MINIO_BUCKET)
             logger.info(f"MinIO bucket '{MINIO_BUCKET}' already exists")
-        except ClientError:
+        except ClientError as exc:
+            # Only create the bucket when it genuinely does not exist (404).
+            # Other errors (403 bad credentials, wrong region, network) must
+            # surface instead of being masked by a confusing create_bucket failure.
+            error_code = exc.response.get("Error", {}).get("Code", "")
+            if error_code not in ("404", "NoSuchBucket"):
+                raise
             await s3.create_bucket(Bucket=MINIO_BUCKET)
             logger.info(f"MinIO bucket '{MINIO_BUCKET}' created")
 

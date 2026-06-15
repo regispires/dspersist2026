@@ -761,6 +761,7 @@ dependencies = [
     { name = "beanie" },
     { name = "fastapi", extra = ["standard"] },
     { name = "fastapi-pagination" },
+    { name = "python-dotenv" },
 ]
 
 [package.dev-dependencies]
@@ -776,6 +777,7 @@ requires-dist = [
     { name = "beanie", specifier = ">=2.0.1" },
     { name = "fastapi", extras = ["standard"], specifier = ">=0.128.0" },
     { name = "fastapi-pagination", specifier = ">=0.15.5" },
+    { name = "python-dotenv", specifier = ">=1.0.0" },
 ]
 
 [package.metadata.requires-dev]
