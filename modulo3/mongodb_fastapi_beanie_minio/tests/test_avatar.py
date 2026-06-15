@@ -35,3 +35,20 @@ async def test_upload_avatar_user_not_found(client):
     files = {"file": ("pic.png", b"\x89PNG", "image/png")}
     resp = await client.post("/users/64b8f0000000000000000000/avatar", files=files)
     assert resp.status_code == 404
+
+
+async def test_download_avatar(client):
+    user_id = await _create_user(client)
+    files = {"file": ("pic.png", b"\x89PNG\r\n\x1a\n", "image/png")}
+    await client.post(f"/users/{user_id}/avatar", files=files)
+
+    resp = await client.get(f"/users/{user_id}/avatar")
+    assert resp.status_code == 200
+    assert resp.headers["content-type"] == "image/png"
+    assert resp.content == b"\x89PNG\r\n\x1a\n"
+
+
+async def test_download_avatar_missing(client):
+    user_id = await _create_user(client)
+    resp = await client.get(f"/users/{user_id}/avatar")
+    assert resp.status_code == 404
