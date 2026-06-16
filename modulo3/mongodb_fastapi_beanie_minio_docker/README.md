@@ -24,7 +24,7 @@ A aplicação expõe endpoints para gerenciar **usuários**, **posts** e **comen
 ```mermaid
 classDiagram
     class User {
-        +PydanticObjectId id
+        +ObjectId id
         +str name
         +str email
         +Avatar avatar
@@ -42,7 +42,7 @@ classDiagram
     }
 
     class Post {
-        +PydanticObjectId id
+        +ObjectId id
         +str title
         +str content
         +Link~User~ user
@@ -54,33 +54,17 @@ classDiagram
     }
 
     class Comment {
-        +PydanticObjectId id
+        +ObjectId id
         +Link~User~ user
         +str content
         <<Document>>
         collection: comments
     }
 
-    class PostCreate {
-        +str title
-        +str content
-        +PydanticObjectId user
-        +list~str~ tags
-        <<BaseModel>>
-    }
-
-    class CommentParam {
-        +PydanticObjectId user
-        +str content
-        <<BaseModel>>
-    }
-
     User "1" *-- "0..1" Avatar : contém (embedded)
     Post "1" --> "1" User : autor (Link)
     Post "1" --> "0..*" Comment : comentários (Link[])
     Comment "1" --> "1" User : autor (Link)
-    PostCreate ..> Post : usado para criar
-    CommentParam ..> Comment : usado para criar
 ```
 
 ## Endpoints
