@@ -1,4 +1,4 @@
-# Blog API — FastAPI + MongoDB (Beanie) + MinIO
+# Blog API — FastAPI + MongoDB (Beanie) + MinIO + Docker
 
 API REST de um blog simples construída com **FastAPI**, **MongoDB** via ODM **Beanie** e armazenamento de arquivos com **MinIO**, tudo orquestrado com **Docker Compose**.
 
