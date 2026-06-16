@@ -23,6 +23,7 @@ A aplicação expõe endpoints para gerenciar **usuários**, **posts** e **comen
 
 ```mermaid
 classDiagram
+    direction LR
     class User {
         +ObjectId id
         +str name
