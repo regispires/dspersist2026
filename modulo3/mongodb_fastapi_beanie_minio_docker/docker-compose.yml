@@ -6,7 +6,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - ./mongo_data:/data/db
+      - mongo_data:/data/db
     healthcheck:
       test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
       interval: 10s
@@ -29,7 +29,7 @@ services:
       - "9000:9000"  # API
       - "9001:9001"  # Console Web
     volumes:
-      - ./minio_data:/data
+      - minio_data:/data
     healthcheck:
       test: ["CMD", "mc", "ready", "local"]
       interval: 10s
@@ -59,3 +59,11 @@ services:
 networks:
   app-net:
     driver: bridge
+
+volumes:
+  mongo_data:
+    name: blog_mongo_data
+    # criar volume com: docker volume create blog_mongo_data
+  minio_data:
+    name: blog_minio_data
+    # criar volume com: docker volume create blog_minio_data
