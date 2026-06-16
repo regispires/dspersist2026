@@ -214,4 +214,7 @@ data/
 
 .vscode
 .claude
+minio_data/
+mongo_data/
+
 

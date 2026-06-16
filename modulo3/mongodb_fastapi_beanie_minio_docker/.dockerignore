@@ -1,0 +1,23 @@
+# Ambiente virtual e caches locais (recriados dentro da imagem)
+.venv
+__pycache__
+**/__pycache__
+*.pyc
+.pytest_cache
+
+# Dados persistidos dos serviços
+mongo_data
+minio_data
+
+# Git e metadados
+.git
+.gitignore
+
+# Ferramentas/IDE
+.claude
+.vscode
+.idea
+
+# Documentação e testes não são necessários na imagem de runtime
+docs
+tests

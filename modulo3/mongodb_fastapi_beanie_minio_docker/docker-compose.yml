@@ -1,0 +1,61 @@
+services:
+  mongo:
+    image: mongo:8.3.2
+    container_name: mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    networks:
+      - app-net
+
+  minio:
+    image: pgsty/minio:RELEASE.2026-04-17T00-00-00Z
+    container_name: minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    # Credenciais vêm do .env (sem segredos fixos aqui)
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY}
+    ports:
+      - "9000:9000"  # API
+      - "9001:9001"  # Console Web
+    volumes:
+      - ./minio_data:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    networks:
+      - app-net
+
+  backend:
+    build: .
+    container_name: blog-fastapi
+    restart: unless-stopped
+    # Todas as URLs de conexão e credenciais são lidas do .env
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      mongo:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    driver: bridge
